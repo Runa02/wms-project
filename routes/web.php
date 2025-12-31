@@ -3,14 +3,26 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockInController;
+use App\Http\Controllers\StockOutController;
 use App\Http\Controllers\UnitController;
 
 // dashboard pages
 Route::get('/', function () {
     return view('pages.dashboard.ecommerce', ['title' => 'E-commerce Dashboard']);
 })->name('dashboard');
+
+Route::get('/apps/admin/master/position', [PositionController::class, 'index'])->name('position.index');
+Route::get('/apps/admin/master/position/data', [PositionController::class, 'getDataPosition'])->name('position.data');
+Route::get('/apps/admin/master/position/create', [PositionController::class, 'create'])->name('position.create');
+Route::post('/apps/admin/master/position/store', [PositionController::class, 'store'])->name('position.store');
+Route::get('/apps/admin/master/position/edit/{id}', [PositionController::class, 'edit'])->name('position.edit');
+Route::put('/apps/admin/master/position/update/{id}', [PositionController::class, 'update'])->name('position.update');
+Route::delete('/apps/admin/master/position/delete/{id}', [PositionController::class, 'destroy'])->name('position.destroy');
 
 Route::get('/apps/admin/master/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/apps/admin/master/category/data', [CategoryController::class, 'getDataCategory'])->name('category.data');
@@ -19,6 +31,14 @@ Route::post('/apps/admin/master/category/store', [CategoryController::class, 'st
 Route::get('/apps/admin/master/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
 Route::put('/apps/admin/master/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/apps/admin/master/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+Route::get('/apps/admin/master/employee', [EmployeeController::class, 'index'])->name('employee.index');
+Route::get('/apps/admin/master/employee/data', [EmployeeController::class, 'getDataEmployee'])->name('employee.data');
+Route::get('/apps/admin/master/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
+Route::post('/apps/admin/master/employee/store', [EmployeeController::class, 'store'])->name('employee.store');
+Route::get('/apps/admin/master/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+Route::put('/apps/admin/master/employee/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+Route::delete('/apps/admin/master/employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
 
 Route::get('/apps/admin/master/unit', [UnitController::class, 'index'])->name('unit.index');
 Route::get('/apps/admin/master/unit/data', [UnitController::class, 'getDataUnit'])->name('unit.data');
@@ -45,6 +65,20 @@ Route::put('/apps/admin/warehouse/stock-in/update/{id}', [StockInController::cla
 Route::delete('/apps/admin/warehouse/stock-in/delete/{id}', [StockInController::class, 'destroy'])->name('stock-in.destroy');
 Route::post('/stock-in/change-status', [StockInController::class, 'changeStatus'])
     ->name('stock-in.change-status');
+
+Route::get('/apps/admin/warehouse/stock-out', [StockOutController::class, 'index'])->name('stock-out.index');
+Route::get('/apps/admin/warehouse/stock-out/data', [StockOutController::class, 'getDataStockOut'])->name('stock-out.data');
+Route::get('/apps/admin/warehouse/stock-out/create', [StockOutController::class, 'create'])->name('stock-out.create');
+Route::post('/apps/admin/warehouse/stock-out/store', [StockOutController::class, 'store'])->name('stock-out.store');
+Route::get('/apps/admin/warehouse/stock-out/edit/{id}', [StockOutController::class, 'edit'])->name('stock-out.edit');
+Route::put('/apps/admin/warehouse/stock-out/update/{id}', [StockOutController::class, 'update'])->name('stock-out.update');
+Route::delete('/apps/admin/warehouse/stock-out/delete/{id}', [StockOutController::class, 'destroy'])->name('stock-out.destroy');
+Route::post('/stock-out/change-status', [StockOutController::class, 'changeStatus'])->name('stock-out.change-status');
+
+Route::get('/apps/admin/warehouse/stock', [StockController::class, 'index'])->name('stock.index');
+Route::get('apps/admin/warehouse/stock/data', [StockController::class, 'data'])->name('stock.data');
+Route::get('/stock/{item}/history', [StockController::class, 'history'])
+    ->name('stock.history');
 
 // calender pages
 Route::get('/calendar', function () {

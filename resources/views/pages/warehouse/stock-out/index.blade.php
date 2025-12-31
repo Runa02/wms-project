@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="text-2xl font-semibold">Stock In</h1>
+    <h1 class="text-2xl font-semibold">Stock Out</h1>
     <div class="breadcrumb mt-3">
         <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -18,7 +18,7 @@
                                 d="m1 9 4-4-4-4" />
                         </svg>
                         <p class="ml-1 text-sm font-medium text-blue-600 md:ml-2">
-                            Stock In
+                            Stock Out
                         </p>
                     </div>
                 </li>
@@ -28,9 +28,9 @@
 
     <div class="mt-6">
         <div class="flex justify-end py-4">
-            <a href="{{ route('stock-in.create') }}"
+            <a href="{{ route('stock-out.create') }}"
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                + Add Stock In
+                + Add Stock Out
             </a>
         </div>
         <div class="bg-white shadow-md rounded-lg border border-gray-200">
@@ -90,7 +90,7 @@
                 table = $('#itemTable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('stock-in.data') }}",
+                    ajax: "{{ route('stock-out.data') }}",
                     pagingType: "simple_numbers",
 
                     // PENGATURAN POSISI

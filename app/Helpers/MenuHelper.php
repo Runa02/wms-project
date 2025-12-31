@@ -16,6 +16,8 @@ class MenuHelper
                 'icon' => 'master',
                 'name' => 'Master',
                 'subItems' => [
+                    ['name' => 'Position', 'path' => '/apps/admin/master/position'],
+                    ['name' => 'Employee', 'path' => '/apps/admin/master/employee'],
                     ['name' => 'Category', 'path' => '/apps/admin/master/category'],
                     ['name' => 'Unit', 'path' => '/apps/admin/master/unit'],
                     ['name' => 'Item', 'path' => '/apps/admin/master/items'],
@@ -25,9 +27,9 @@ class MenuHelper
                 'icon' => 'inventory',
                 'name' => 'Warehouse',
                 'subItems' => [
-                    ['name' => 'Stock', 'path' => '/apps/admin/master/category'],
+                    ['name' => 'Stock', 'path' => '/apps/admin/warehouse/stock'],
                     ['name' => 'Stock In', 'path' => '/apps/admin/warehouse/stock-in'],
-                    ['name' => 'Stock Out', 'path' => '/apps/admin/master/items'],
+                    ['name' => 'Stock Out', 'path' => '/apps/admin/warehouse/stock-out'],
                 ],
             ],
         ];

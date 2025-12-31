@@ -65,7 +65,7 @@ class StockInController extends Controller
             ->addColumn('action', function ($row) {
                 return '
                     <div class="flex items-center justify-center gap-2">
-                        <a href="' . route('items.edit', $row->id) . '"
+                        <a href="' . route('stock-in.edit', $row->id) . '"
                         class="inline-flex items-center px-3 py-1.5 text-xs font-medium
                                 text-white bg-yellow-500 rounded-md
                                 hover:bg-yellow-600 transition">
@@ -121,7 +121,6 @@ class StockInController extends Controller
             // 1. Generate reference number
             $referenceNo = $request->reference_no ?? $this->generateStockInRef();
 
-            // 2. Simpan Stock In (HISTORY)
             $stockIn = StockIn::create([
                 'item_id'      => $request->item_id,
                 'qty'          => $request->qty,
@@ -134,7 +133,6 @@ class StockInController extends Controller
                 'approved_by'  => $request->approved_by
             ]);
 
-            // 3. UPDATE STOCK JIKA APPROVED
             if ($request->status === 'approved') {
                 Stock::updateOrCreate(
                     ['item_id' => $request->item_id],
@@ -147,7 +145,88 @@ class StockInController extends Controller
 
         return redirect()
             ->route('stock-in.index')
-            ->with('success', 'Stock In berhasil disimpan');
+            ->with('success', 'Stock In saved');
+    }
+
+    public function edit($id)
+    {
+        $stock = StockIn::findOrFail($id);
+        $items = Item::all();
+        return view('pages.warehouse.stock-in.edit', compact('items', 'stock'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'item_id'      => 'required|exists:items,id',
+            'qty'          => 'required|integer|min:1',
+            'date'         => 'required|date',
+            'source'       => 'required|string|max:50',
+            'reference_no' => 'nullable|string|max:100',
+            'status'       => 'required|string',
+            'note'         => 'nullable|string',
+            'created_by'   => 'nullable|string',
+            'approved_by'  => 'nullable|string',
+        ]);
+
+        DB::transaction(function () use ($request, $id) {
+
+            $stockIn = StockIn::lockForUpdate()->findOrFail($id);
+
+            $oldStatus = $stockIn->status;
+            $oldQty    = $stockIn->qty;
+            $oldItemId = $stockIn->item_id;
+
+            if ($oldStatus === 'approved') {
+                Stock::where('item_id', $oldItemId)
+                    ->update([
+                        'qty' => DB::raw('qty - ' . $oldQty)
+                    ]);
+            }
+
+            $stockIn->update([
+                'item_id'      => $request->item_id,
+                'qty'          => $request->qty,
+                'date'         => $request->date,
+                'source'       => $request->source,
+                'reference_no' => $request->reference_no ?? $stockIn->reference_no,
+                'status'       => $request->status,
+                'note'         => $request->note,
+                'created_by'   => $request->created_by,
+                'approved_by'  => $request->approved_by,
+            ]);
+
+            if ($request->status === 'approved') {
+                Stock::updateOrCreate(
+                    ['item_id' => $request->item_id],
+                    [
+                        'qty' => DB::raw('qty + ' . $request->qty)
+                    ]
+                );
+            }
+        });
+
+        return redirect()
+            ->route('stock-in.index')
+            ->with('success', 'Stock In update successfull');
+    }
+
+    public function destroy($id)
+    {
+        $stockIn = StockIn::findOrFail($id);
+
+        if ($stockIn->status !== 'draft') {
+            return response()->json([
+                'message' => 'Data that has been processed cannot be deleted'
+            ], 422);
+        }
+
+        $stockIn->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock In deleted successfull'
+        ]);
     }
 
     private function generateStockInRef()
