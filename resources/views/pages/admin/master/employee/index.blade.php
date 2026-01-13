@@ -85,6 +85,18 @@
                             name: 'name'
                         },
                         {
+                            data: 'position',
+                            name: 'position'
+                        },
+                        {
+                            data: 'join_date',
+                            name: 'join_date'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
                             data: 'action',
                             name: 'action',
                             orderable: false,

@@ -118,7 +118,7 @@ class StockInController extends Controller
 
         DB::transaction(function () use ($request) {
 
-            // 1. Generate reference number
+            // Generate reference number
             $referenceNo = $request->reference_no ?? $this->generateStockInRef();
 
             $stockIn = StockIn::create([

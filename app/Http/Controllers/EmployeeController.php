@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmployeeController extends Controller
@@ -69,17 +71,22 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $position = Position::all();
-        return view('pages.admin.master.employees.create', compact('position'));
+        $positions = Position::all();
+        return view('pages.admin.master.employee.create', compact('positions'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'position_id'    => 'nullable|exists:positions,id',
+            'position_id'    => 'nullable',
             'name'           => 'required|string|max:255',
             'join_date'      => 'nullable|date',
             'status'         => 'nullable|string',
+
+            // for user
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email',
+            'password'  => 'required',
         ]);
 
         Employee::create([
@@ -89,9 +96,15 @@ class EmployeeController extends Controller
             'status'       => $request->status,
         ]);
 
+        User::create([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+        ]);
+
         return redirect()
             ->route('employee.index')
-            ->with('success', 'Item berhasil ditambahkan');
+            ->with('success', 'New employee successfully added');
     }
 
     public function edit($id)

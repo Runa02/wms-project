@@ -34,10 +34,8 @@
                     @csrf
                     @method('PUT')
 
-                    <!-- Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <!-- Item Code -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Item Code
@@ -52,7 +50,6 @@
                             @enderror
                         </div>
 
-                        <!-- Item Name -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Item Name
@@ -67,7 +64,6 @@
                             @enderror
                         </div>
 
-                        <!-- Category -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Category
@@ -89,7 +85,6 @@
                             @enderror
                         </div>
 
-                        <!-- Unit -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Unit
@@ -111,7 +106,6 @@
                             @enderror
                         </div>
 
-                        <!-- Stock Minimum -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Minimum Stock
@@ -122,7 +116,6 @@
                                 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30">
                         </div>
 
-                        <!-- Location -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Location
@@ -133,7 +126,6 @@
                                 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30">
                         </div>
 
-                        <!-- Status -->
                         <div class="md:col-span-2">
                             <label class="block mb-2 text-sm font-medium text-gray-700">
                                 Status
@@ -150,7 +142,6 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex items-center justify-end gap-3 pt-4 border-t">
                         <a href="{{ route('items.index') }}"
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">

@@ -98,6 +98,7 @@ class ItemController extends Controller
             'name.required' => 'Item name wajib diisi',
         ]);
 
+        // for random code
         $code = $request->code ?? 'ITM-' . str_pad(Item::count() + 1, 4, '0', STR_PAD_LEFT);
 
         Item::create([

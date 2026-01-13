@@ -21,29 +21,23 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('theme', {
+                theme: 'light',
+
                 init() {
                     const savedTheme = localStorage.getItem('theme');
-                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' :
-                        'light';
-                    this.theme = savedTheme || systemTheme;
+                    this.theme = savedTheme ?? 'light';
                     this.updateTheme();
                 },
-                theme: 'light',
+
                 toggle() {
                     this.theme = this.theme === 'light' ? 'dark' : 'light';
                     localStorage.setItem('theme', this.theme);
                     this.updateTheme();
                 },
+
                 updateTheme() {
-                    const html = document.documentElement;
-                    const body = document.body;
-                    if (this.theme === 'dark') {
-                        html.classList.add('dark');
-                        body.classList.add('dark', 'bg-gray-900');
-                    } else {
-                        html.classList.remove('dark');
-                        body.classList.remove('dark', 'bg-gray-900');
-                    }
+                    document.documentElement.classList.toggle('dark', this.theme === 'dark');
+                    document.body.classList.toggle('bg-gray-900', this.theme === 'dark');
                 }
             });
 
@@ -81,16 +75,9 @@
     <!-- Apply dark mode immediately to prevent flash -->
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const theme = savedTheme || systemTheme;
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.body.classList.add('dark', 'bg-gray-900');
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.body.classList.remove('dark', 'bg-gray-900');
-            }
+            const theme = localStorage.getItem('theme') ?? 'light';
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            document.body.classList.toggle('bg-gray-900', theme === 'dark');
         })();
     </script>
 
