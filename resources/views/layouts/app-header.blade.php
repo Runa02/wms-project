@@ -50,9 +50,9 @@
 
             <!-- Logo (mobile only) -->
             <a href="/" class="xl:hidden">
-                {{-- <img class="dark:hidden" src="/images/logo/logo.svg" alt="Logo" />
-                <img class="hidden dark:block" src="/images/logo/logo-dark.svg" alt="Logo" /> --}}
-                <h3>Warehouse Management System</h3>
+                <img class="dark:hidden" src="/images/logo/Sidebar-Logo.svg" alt="Logo" width="150" />
+                {{-- <img class="hidden dark:block" src="/images/logo/logo-dark.svg" alt="Logo" /> --}}
+                {{-- <h3>Warehouse Management System</h3> --}}
             </a>
 
             <!-- Application Menu Toggle (mobile only) -->

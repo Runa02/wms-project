@@ -1,0 +1,20 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 411" width="409" height="411">
+	<style>
+		tspan { white-space:pre } 
+		.s0 { fill: #8ca9ff } 
+		.s1 { fill: #0000ff } 
+	</style>
+	<g id="Folder 2">
+		<path id="Shape 3" fill-rule="evenodd" class="s0" d="m43 0h323c23.75 0 43 19.25 43 43v325c0 23.75-19.25 43-43 43h-323c-23.75 0-43-19.25-43-43v-325c0-23.75 19.25-43 43-43z"/>
+		<filter id="f0">
+			<feFlood flood-color="#ffffff" flood-opacity="1" />
+			<feBlend mode="normal" in2="SourceGraphic"/>
+			<feComposite in2="SourceAlpha" operator="in" />
+		</filter>
+		<g id="Folder 1" filter="url(#f0)">
+			<path id="Shape 2" fill-rule="evenodd" class="s1" d="m96 295.89v-107.52c0-6.07 4.92-11 11-11h39.75c6.07 0 11 4.93 11 11v107.52c0 6.07-4.93 11-11 11h-39.75c-6.08 0-11-4.93-11-11z"/>
+			<path id="Shape 2 copy" fill-rule="evenodd" class="s1" d="m177 256.51v-164.51c0-6.08 4.92-11 11-11h39.75c6.07 0 11 4.92 11 11v164.51c0 6.08-4.93 11-11 11h-39.75c-6.08 0-11-4.92-11-11z"/>
+			<path id="Shape 2 copy 2" fill-rule="evenodd" class="s1" d="m255.91 294.7v-107.51c0-6.08 4.93-11 11-11h39.75c6.08 0 11 4.92 11 11v107.51c0 6.08-4.92 11-11 11h-39.75c-6.07 0-11-4.92-11-11z"/>
+		</g>
+	</g>
+</svg>

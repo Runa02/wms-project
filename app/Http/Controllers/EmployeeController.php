@@ -47,7 +47,7 @@ class EmployeeController extends Controller
             ->addColumn('action', function ($row) {
                 return '
                     <div class="flex items-center justify-center gap-2">
-                        <a href="' . route('items.edit', $row->id) . '"
+                        <a href="' . route('employee.edit', $row->id) . '"
                         class="inline-flex items-center px-3 py-1.5 text-xs font-medium
                                 text-white bg-yellow-500 rounded-md
                                 hover:bg-yellow-600 transition">
@@ -89,17 +89,18 @@ class EmployeeController extends Controller
             'password'  => 'required',
         ]);
 
+        $createdUser = User::create([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+        ]);
+
         Employee::create([
             'position_id'   => $request->position_id,
             'name'          => $request->name,
             'join_date'     => $request->join_date,
             'status'       => $request->status,
-        ]);
-
-        User::create([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
+            'user_id'      => $createdUser->id,
         ]);
 
         return redirect()
@@ -110,19 +111,24 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
-        $position = Position::all();
-        return view('pages.admin.master.employee.edit', compact('position', 'employee'));
+        $positions = Position::all();
+        return view('pages.admin.master.employee.edit', compact('positions', 'employee'));
     }
 
     public function update(Request $request, $id)
     {
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::with('user')->findOrFail($id);
 
         $request->validate([
             'position_id'    => 'nullable|exists:positions,id',
             'name'           => 'required|string|max:255',
             'join_date'      => 'nullable|date',
             'status'         => 'nullable|string',
+
+            //for user
+            'email'          => 'nullable|email',
+            'password'       => 'nullable',
+            'name'           => 'nullable|string',
         ]);
 
         $data = [
@@ -133,6 +139,20 @@ class EmployeeController extends Controller
         ];
 
         $employee->update($data);
+
+
+        if ($employee->user) {
+            $userData = [
+                'name'  => $request->name,
+                'email' => $request->email,
+            ];
+
+            if ($request->filled('password')) {
+                $userData['password'] = Hash::make($request->password);
+            }
+
+            $employee->user->update($userData);
+        }
 
         return redirect()->route('employee.index')
             ->with('success', 'Employee Successful Updated');

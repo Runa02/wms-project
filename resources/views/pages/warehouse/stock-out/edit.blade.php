@@ -19,7 +19,7 @@
                                 d="m1 9 4-4-4-4" />
                         </svg>
                         <p class="ml-1 text-sm font-medium text-blue-600 md:ml-2">
-                            Stock In
+                            Stock Out
                         </p>
                     </div>
                 </li>

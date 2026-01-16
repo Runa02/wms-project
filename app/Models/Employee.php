@@ -11,10 +11,16 @@ class Employee extends Model
         'position_id',
         'join_date',
         'status',
+        'user_id',
     ];
 
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

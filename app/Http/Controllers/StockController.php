@@ -6,7 +6,7 @@ use App\Models\Item;
 use App\Models\Stock;
 use App\Models\StockIn;
 use App\Models\StockOut;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
@@ -18,14 +18,42 @@ class StockController extends Controller
         $stocks = Stock::with('item')->get();
 
         // Summary
-        $totalItems = $stocks->count();
-        $totalStockIn = StockIn::where('status', 'approved')->sum('qty');
+        $totalItems    = $stocks->count();
+        $totalStockIn  = StockIn::where('status', 'approved')->sum('qty');
         $totalStockOut = StockOut::where('status', 'approved')->sum('qty');
 
-        return view('pages.warehouse.stock.index', compact(
+        /**
+         * ==============================
+         * Chart Stock In vs Stock Out
+         * ==============================
+         */
+        $months = [];
+        $stockInData = [];
+        $stockOutData = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $month = Carbon::now()->subMonths($i);
+
+            $months[] = $month->format('M');
+
+            $stockInData[] = StockIn::where('status', 'approved')
+                ->whereMonth('created_at', $month->month)
+                ->whereYear('created_at', $month->year)
+                ->sum('qty');
+
+            $stockOutData[] = StockOut::where('status', 'approved')
+                ->whereMonth('created_at', $month->month)
+                ->whereYear('created_at', $month->year)
+                ->sum('qty');
+        }
+
+        return view('pages.dashboard.ecommerce', compact(
             'totalItems',
             'totalStockIn',
-            'totalStockOut'
+            'totalStockOut',
+            'months',
+            'stockInData',
+            'stockOutData'
         ));
     }
 

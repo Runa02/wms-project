@@ -5,14 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <title>{{ $title ?? 'Dashboard' }} | Warehouse Management System</title>
+    <title>Warehouse Management System</title>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Alpine.js -->
-    {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Theme Store -->
     <script>
@@ -74,6 +78,46 @@
             });
         });
     </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000",
+            "extendedTimeOut": "1000",
+            "showDuration": "300",
+            "hideDuration": "300",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    </script>
+
+    @if (session('success'))
+        <script>
+            toastr.success("{{ session('success') }}");
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                toastr.error(@json(session('error')));
+            });
+        </script>
+    @endif
+
+    @if (session('warning'))
+        <script>
+            toastr.warning("{{ session('warning') }}");
+        </script>
+    @endif
+
+    @if (session('info'))
+        <script>
+            toastr.info("{{ session('info') }}");
+        </script>
+    @endif
 
     <!-- Apply dark mode immediately to prevent flash -->
     <script>
